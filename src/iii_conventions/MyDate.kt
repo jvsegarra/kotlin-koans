@@ -19,6 +19,14 @@ enum class TimeInterval {
     YEAR
 }
 
+operator fun MyDate.plus(timeInterval: TimeInterval): MyDate = this.addTimeIntervals(timeInterval, 1)
+operator fun MyDate.plus(repeatedTimeInterval: RepeatedTimeInterval): MyDate =
+        this.addTimeIntervals(repeatedTimeInterval.ti, repeatedTimeInterval.n)
+
+class RepeatedTimeInterval(val ti: TimeInterval, val n: Int)
+
+operator fun TimeInterval.times(repetitions: Int) = RepeatedTimeInterval(this, repetitions);
+
 class DateRange(val start: MyDate, val endInclusive: MyDate) : Iterable<MyDate> {
     operator fun contains(d: MyDate): Boolean {
         return (start <= d) && (d <= endInclusive)
